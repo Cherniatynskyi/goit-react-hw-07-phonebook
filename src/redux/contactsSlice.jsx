@@ -1,24 +1,38 @@
 import { createSlice} from "@reduxjs/toolkit";
 import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+// import { getContacts } from "services/contactsApi";
+
+// export const getAllContactActions = createAsyncThunk('contacts/getContacts', async()=>{
+//     const data = await getContacts()
+//     return data
+// })
 
 export const contactsSlice = createSlice({
     name: 'contacts',
     initialState: {
         contacts:[],
+        isLoading: false,
+        error: ''
     },
-    reducers:{
-        addContact: (state, action) =>{
-             state.contacts.push(action.payload)
-        },
-        deleteContact: (state,action) =>{
-           state.contacts = state.contacts.filter((el) => el.id !== action.payload)
-        },
-    }
+    // extraReducers:(builder)=>{
+    //     builder.addCase(getAllContactActions.pending, (state)=>{
+    //         state.isLoading = true
+    //         state.error = ''
+    //     })
+    //     builder.addCase(getAllContactActions.fulfilled, (state, {payload})=>{
+    //         state.isLoading = true
+    //         state.contacts = payload
+    //     })
+    //     builder.addCase(getAllContactActions.rejected, (state, {payload})=>{
+    //         state.error = payload
+    //         state.isLoading = true
+    //     })
+    // }
 })
 
 
 
-export const {addContact, deleteContact} = contactsSlice.actions
+// export const {addContact, deleteContact} = contactsSlice.actions
 
 
 export const contactsApi = createApi({
@@ -49,3 +63,4 @@ export const contactsApi = createApi({
 })
 
 export const {useFetchContactsQuery, useDeleteContactMutation, useCreateContactMutation} = contactsApi
+

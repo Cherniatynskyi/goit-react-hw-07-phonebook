@@ -25,7 +25,6 @@ export const ContactsList = () => {
 
     return (
         <>
-            {/* {isFetching && <Loader/>} */}
             <div className={css.contactsContainer}>
                 <ul className={css.contactsList}>
                     {filteredContacts && filteredContacts.map((contact) =>

@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState } from 'react'
 // import {useSelector, useDispatch} from 'react-redux'
 import { nanoid } from 'nanoid'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
