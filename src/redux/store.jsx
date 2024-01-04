@@ -19,11 +19,12 @@ const persistConfig = {
     storage,
 }
 
+
 const persistedContactsReducer = persistReducer(persistConfig, contactsSlice.reducer)
 
 export const store = configureStore({
     reducer: {
-        contacts: persistedContactsReducer,
+        contacts: contactsSlice.reducer,
         filter: filterSlice.reducer,
         [contactsApi.reducerPath]: contactsApi.reducer
     },

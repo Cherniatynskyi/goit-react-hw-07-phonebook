@@ -1,14 +1,16 @@
-import { useDeleteContactMutation } from "../../../redux/contactsSlice"
 import css from '../ContactsList.module.css'
+import { useDispatch } from "react-redux";
+import { deleteContactsThunk } from "../../../redux/contactsSlice";
+
 
 export const ContactItem = ({contact}) =>{
+    const dispatch = useDispatch();
 
     const {name, phone, id} = contact
-    const [deleteContact, {isLoading: isDeleting}] = useDeleteContactMutation()
 
     return (
         <li>- {name}: {phone}
-            <button className={css.contactsButton} disabled={isDeleting} onClick={()=>{deleteContact(id)}}>{isDeleting ? 'Deleting...' : 'Delete'}</button>
+            <button className={css.contactsButton} onClick={()=>{dispatch(deleteContactsThunk(id))}}>Delete</button>
         </li>
     )
 }

@@ -3,9 +3,17 @@ import { ContactForm } from "./ContactForm/ContactForm";
 import { Filter } from "./Filter/Filter";
 import { useFetchContactsQuery } from "../redux/contactsSlice";
 
+import { useDispatch } from "react-redux";
+import { getContactsThunk } from "../redux/contactsSlice";
+
 
 const App = () => {
+  const dispatch = useDispatch();
   const {data} = useFetchContactsQuery()
+  // useEffect(() => {
+  //   dispatch(getContactsThunk())
+  // }, [dispatch])
+  
     return (
       <>
         <h1>Phonebook</h1>

@@ -1,11 +1,46 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-// import { getContacts } from "services/contactsApi";
+import { getContacts, addContact, deleteContact } from "services/contactsApi";
 
-// export const getAllContactActions = createAsyncThunk('contacts/getContacts', async()=>{
-//     const data = await getContacts()
-//     return data
-// })
+
+export const getContactsThunk = createAsyncThunk('contacts/getContacts', async()=>{
+    return await getContacts()
+})
+
+export const addContactsThunk = createAsyncThunk('contacts/addContact', async(data)=>{
+    return await addContact(data)
+})
+
+export const deleteContactsThunk = createAsyncThunk('contacts/deleteContact', async(id)=>{
+    return await deleteContact(id)
+})
+
+const handlePending = (state) => {
+    state.isLoading = true
+}
+
+const handleFulfilledGet = (state,{payload}) => {
+    state.isLoading = false
+    state.contacts = payload
+    state.error = ''
+}
+
+const handleFulfilledAdd = (state,{payload}) => {
+    state.isLoading = false
+    state.contacts.push(payload)
+    state.error = ''
+}
+
+const handleFulfilledDel = (state,{payload}) => {
+    state.isLoading = false
+    state.contacts = state.contacts.filter(el=>el.id!==payload?.id)
+    state.error = ''
+}
+
+const handleRejected = (state,{payload}) => {
+    state.error = payload
+    state.isLoading = false
+}
 
 export const contactsSlice = createSlice({
     name: 'contacts',
@@ -14,25 +49,16 @@ export const contactsSlice = createSlice({
         isLoading: false,
         error: ''
     },
-    // extraReducers:(builder)=>{
-    //     builder.addCase(getAllContactActions.pending, (state)=>{
-    //         state.isLoading = true
-    //         state.error = ''
-    //     })
-    //     builder.addCase(getAllContactActions.fulfilled, (state, {payload})=>{
-    //         state.isLoading = true
-    //         state.contacts = payload
-    //     })
-    //     builder.addCase(getAllContactActions.rejected, (state, {payload})=>{
-    //         state.error = payload
-    //         state.isLoading = true
-    //     })
-    // }
+    extraReducers:(builder)=>{
+        builder
+        .addCase(getContactsThunk.fulfilled, handleFulfilledGet)
+        .addCase(addContactsThunk.fulfilled, handleFulfilledAdd)
+        .addCase(deleteContactsThunk.fulfilled, handleFulfilledDel)
+        .addMatcher(isAnyOf(getContactsThunk.pending, addContactsThunk.pending, deleteContactsThunk.pending), handlePending)
+        .addMatcher(isAnyOf(getContactsThunk.rejected, addContactsThunk.rejected, deleteContactsThunk.rejected), handleRejected)
+    }
 })
 
-
-
-// export const {addContact, deleteContact} = contactsSlice.actions
 
 
 export const contactsApi = createApi({
@@ -43,13 +69,6 @@ export const contactsApi = createApi({
         fetchContacts: builder.query({
             query: () => '/contacts',
             providesTags: ['Contact']
-        }),
-        deleteContact: builder.mutation({
-            query: contactId => ({
-                url: `/contacts/${contactId}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Contact']
         }),
         createContact: builder.mutation({
             query: newContact => ({
@@ -62,5 +81,5 @@ export const contactsApi = createApi({
     })
 })
 
-export const {useFetchContactsQuery, useDeleteContactMutation, useCreateContactMutation} = contactsApi
+export const {useFetchContactsQuery, useCreateContactMutation} = contactsApi
 

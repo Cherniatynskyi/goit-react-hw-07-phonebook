@@ -1,8 +1,8 @@
 import { useState } from 'react'
-// import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import { nanoid } from 'nanoid'
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { useCreateContactMutation, useFetchContactsQuery } from '../../redux/contactsSlice';
+import { getContactsThunk, useCreateContactMutation, useFetchContactsQuery } from '../../redux/contactsSlice';
 import css from './ContactForm.module.css'
 
 export const ContactForm = () => {
@@ -12,8 +12,8 @@ export const ContactForm = () => {
     const [createContact, {isLoading: isCreating}] = useCreateContactMutation();
     const {data: contacts} = useFetchContactsQuery();
 
-    // const stateContacts = useSelector(state => state.contacts.contacts)
-    // const dispatch = useDispatch();
+    const stateContacts = useSelector(state => state.contacts.contacts)
+    const dispatch = useDispatch();
 
     const handleChange = e => {
         const name = e.target.name
