@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
-import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+// import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getContacts, addContact, deleteContact } from "services/contactsApi";
 
 
@@ -34,6 +34,7 @@ const handleFulfilledAdd = (state,{payload}) => {
 const handleFulfilledDel = (state,{payload}) => {
     state.isLoading = false
     state.contacts = state.contacts.filter(el=>el.id!==payload?.id)
+    console.log('deleting')
     state.error = ''
 }
 
@@ -61,25 +62,25 @@ export const contactsSlice = createSlice({
 
 
 
-export const contactsApi = createApi({
-    reducerPath: 'contactsApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://65940be71493b0116069cd82.mockapi.io/'}),
-    tagTypes: ['Contact'],
-    endpoints: builder => ({
-        fetchContacts: builder.query({
-            query: () => '/contacts',
-            providesTags: ['Contact']
-        }),
-        createContact: builder.mutation({
-            query: newContact => ({
-                url: `/contacts`,
-                method: 'POST',
-                body: newContact
-            }),
-            invalidatesTags: ['Contact']
-        })
-    })
-})
+// export const contactsApi = createApi({
+//     reducerPath: 'contactsApi',
+//     baseQuery: fetchBaseQuery({baseUrl: 'https://65940be71493b0116069cd82.mockapi.io/'}),
+//     tagTypes: ['Contact'],
+//     endpoints: builder => ({
+//         fetchContacts: builder.query({
+//             query: () => '/contacts',
+//             providesTags: ['Contact']
+//         }),
+//         createContact: builder.mutation({
+//             query: newContact => ({
+//                 url: `/contacts`,
+//                 method: 'POST',
+//                 body: newContact
+//             }),
+//             invalidatesTags: ['Contact']
+//         })
+//     })
+// })
 
-export const {useFetchContactsQuery, useCreateContactMutation} = contactsApi
+// export const {useFetchContactsQuery, useCreateContactMutation} = contactsApi
 
