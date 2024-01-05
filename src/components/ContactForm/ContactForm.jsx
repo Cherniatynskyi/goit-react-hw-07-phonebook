@@ -37,6 +37,7 @@ export const ContactForm = () => {
             phone
           }
         dispatch(addContactsThunk(contact))
+        console.log(contact)
         console.log(stateContacts)
 
         resetForm()
