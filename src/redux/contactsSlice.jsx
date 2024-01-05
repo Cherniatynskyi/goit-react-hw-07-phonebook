@@ -8,11 +8,13 @@ export const getContactsThunk = createAsyncThunk('contacts/getContacts', async()
 })
 
 export const addContactsThunk = createAsyncThunk('contacts/addContact', async(data)=>{
-    return await addContact(data)
+    const contacts = await addContact(data);
+    return contacts.data
 })
 
 export const deleteContactsThunk = createAsyncThunk('contacts/deleteContact', async(id)=>{
-    return await deleteContact(id)
+    const contacts = await deleteContact(id);
+    return contacts.data
 })
 
 const handlePending = (state) => {
