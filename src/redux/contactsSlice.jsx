@@ -1,21 +1,5 @@
-import { createAsyncThunk, createSlice, isAnyOf} from "@reduxjs/toolkit";
-// import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { getContacts, addContact, deleteContact } from "services/contactsApi";
-
-
-export const getContactsThunk = createAsyncThunk('contacts/getContacts', async()=>{
-    return await getContacts()
-})
-
-export const addContactsThunk = createAsyncThunk('contacts/addContact', async(data)=>{
-    const contacts = await addContact(data);
-    return contacts.data
-})
-
-export const deleteContactsThunk = createAsyncThunk('contacts/deleteContact', async(id)=>{
-    const contacts = await deleteContact(id);
-    return contacts.data
-})
+import {createSlice, isAnyOf} from "@reduxjs/toolkit";
+import { addContactsThunk, getContactsThunk, deleteContactsThunk } from "./operations";
 
 const handlePending = (state) => {
     state.isLoading = true
@@ -61,28 +45,3 @@ export const contactsSlice = createSlice({
         .addMatcher(isAnyOf(getContactsThunk.rejected, addContactsThunk.rejected, deleteContactsThunk.rejected), handleRejected)
     }
 })
-
-
-
-// export const contactsApi = createApi({
-//     reducerPath: 'contactsApi',
-//     baseQuery: fetchBaseQuery({baseUrl: 'https://65940be71493b0116069cd82.mockapi.io/'}),
-//     tagTypes: ['Contact'],
-//     endpoints: builder => ({
-//         fetchContacts: builder.query({
-//             query: () => '/contacts',
-//             providesTags: ['Contact']
-//         }),
-//         createContact: builder.mutation({
-//             query: newContact => ({
-//                 url: `/contacts`,
-//                 method: 'POST',
-//                 body: newContact
-//             }),
-//             invalidatesTags: ['Contact']
-//         })
-//     })
-// })
-
-// export const {useFetchContactsQuery, useCreateContactMutation} = contactsApi
-

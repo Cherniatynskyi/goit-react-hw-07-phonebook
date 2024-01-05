@@ -4,7 +4,7 @@ import { Filter } from "./Filter/Filter";
 import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getContactsThunk } from "../redux/contactsSlice";
+import { getContactsThunk } from "../redux/operations";
 
 
 const App = () => {
