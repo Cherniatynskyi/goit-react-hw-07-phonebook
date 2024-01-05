@@ -9,12 +9,12 @@ export const getContactsThunk = createAsyncThunk('contacts/getContacts', async()
 
 export const addContactsThunk = createAsyncThunk('contacts/addContact', async(data)=>{
     const contacts = await addContact(data);
-    return contacts
+    return contacts.data
 })
 
 export const deleteContactsThunk = createAsyncThunk('contacts/deleteContact', async(id)=>{
     const contacts = await deleteContact(id);
-    return contacts
+    return contacts.data
 })
 
 const handlePending = (state) => {
@@ -30,14 +30,12 @@ const handleFulfilledGet = (state,{payload}) => {
 const handleFulfilledAdd = (state, action) => {
     state.isLoading = false
     state.contacts.push(action.payload)
-    console.log("added", action)
     state.error = ''
 }
 
 const handleFulfilledDel = (state,{payload}) => {
     state.isLoading = false
     state.contacts = state.contacts.filter(el=>el.id!==payload?.id)
-    console.log('deleting')
     state.error = ''
 }
 

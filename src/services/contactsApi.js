@@ -6,9 +6,9 @@ export const getContacts = async () => {
 }
 
 export const addContact = async ({name, phone}) => {
-    await axios.post('https://65940be71493b0116069cd82.mockapi.io/contacts', {name, phone}) 
+    return await axios.post('https://65940be71493b0116069cd82.mockapi.io/contacts', {name, phone}) 
 }
 
 export const deleteContact = async (id) => {
-    await axios.delete(`https://65940be71493b0116069cd82.mockapi.io/contacts/${id}`)
+    return await axios.delete(`https://65940be71493b0116069cd82.mockapi.io/contacts/${id}`)
 }

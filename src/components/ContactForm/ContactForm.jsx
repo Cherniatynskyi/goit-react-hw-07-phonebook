@@ -10,6 +10,7 @@ export const ContactForm = () => {
     const [phone, setPhone] = useState('')
 
     const stateContacts = useSelector(state => state.contacts.contacts)
+    const isLoading = useSelector(state => state.contacts.isLoading)
     const dispatch = useDispatch();
 
     const handleChange = e => {
@@ -37,9 +38,6 @@ export const ContactForm = () => {
             phone
           }
         dispatch(addContactsThunk(contact))
-        console.log(contact)
-        console.log(stateContacts)
-
         resetForm()
     }
 
@@ -72,7 +70,7 @@ export const ContactForm = () => {
                 <input onChange={handleChange} value={phone} className={css.input} type="tel" name="phone" pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                     title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +" required />
             </label>
-            <button type='submit' className={css.formButton}>Add Contact</button>
+            <button type='submit' className={css.formButton}>{isLoading? 'Adding...': 'Add Contact'}</button>
         </form>
         </>
     )
